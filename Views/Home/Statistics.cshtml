@@ -1,0 +1,28 @@
+﻿﻿
+@model IEnumerable<Clinica_medicala.Models.ClinicaViewModels.GrupProgramare>
+@{
+    ViewData["Title"] = "Statistică servicii programate";
+}
+<h2>Statistică servicii programate</h2>
+<table>
+    <tr>
+        <th>
+            Data programării
+        </th>
+        <th>
+            Servicii programate
+        </th>
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.DataProgramare)
+            </td>
+            <td>
+                @item.NrServicii
+            </td>
+        </tr>
+    }
+</table>
+
