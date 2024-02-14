@@ -36,7 +36,7 @@ namespace Clinica_medicala.Controllers
             }
 
             var serviciu = await _context.Servicii
-                .FirstOrDefaultAsync(m => m.ID == id);
+                .FirstOrDefaultAsync(m => m.ServiciuID == id);
             if (serviciu == null)
             {
                 return NotFound();
@@ -56,7 +56,7 @@ namespace Clinica_medicala.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,Titlu,Medic,Pret")] Serviciu serviciu)
+        public async Task<IActionResult> Create([Bind("ServiciuID,Titlu,Medic,Pret")] Serviciu serviciu)
         {
             if (ModelState.IsValid)
             {
@@ -88,9 +88,9 @@ namespace Clinica_medicala.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ID,Titlu,Medic,Pret")] Serviciu serviciu)
+        public async Task<IActionResult> Edit(int id, [Bind("ServiciuID,Titlu,Medic,Pret")] Serviciu serviciu)
         {
-            if (id != serviciu.ID)
+            if (id != serviciu.ServiciuID)
             {
                 return NotFound();
             }
@@ -104,7 +104,7 @@ namespace Clinica_medicala.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ServiciuExists(serviciu.ID))
+                    if (!ServiciuExists(serviciu.ServiciuID))
                     {
                         return NotFound();
                     }
@@ -127,7 +127,7 @@ namespace Clinica_medicala.Controllers
             }
 
             var serviciu = await _context.Servicii
-                .FirstOrDefaultAsync(m => m.ID == id);
+                .FirstOrDefaultAsync(m => m.ServiciuID == id);
             if (serviciu == null)
             {
                 return NotFound();
@@ -157,7 +157,7 @@ namespace Clinica_medicala.Controllers
 
         private bool ServiciuExists(int id)
         {
-          return (_context.Servicii?.Any(e => e.ID == id)).GetValueOrDefault();
+          return (_context.Servicii?.Any(e => e.ServiciuID == id)).GetValueOrDefault();
         }
     }
 }
