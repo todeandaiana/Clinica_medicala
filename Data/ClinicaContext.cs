@@ -5,13 +5,20 @@ namespace Clinica_medicala.Data
 {
     public class ClinicaContext:DbContext
         {
-            public LibraryContext(DbContextOptions<LibraryContext> options) :
+            public ClinicaContext(DbContextOptions<ClinicaContext> options) :
            base(options)
             {
             }
-            public DbSet<Customer> Customers { get; set; }
-            public DbSet<Order> Orders { get; set; }
-            public DbSet<Book> Books { get; set; }
+            public DbSet<Pacient> Pacienti { get; set; }
+            public DbSet<Programare> Programari { get; set; }
+            public DbSet<Serviciu> Servicii { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Pacient>().ToTable("Pacienti");
+            modelBuilder.Entity<Programare>().ToTable("Programari");
+            modelBuilder.Entity<Serviciu>().ToTable("Servicii");
         }
     }
 }
+

@@ -7,8 +7,8 @@
         public string Medic { get; set; }
         public decimal Pret { get; set; }
 
-        public int? ProgramID { get; set; }
-        public Program Program { get; set; }
+       // public int? ProgramID { get; set; }
+        //public Program Program { get; set; }
         public ICollection<Programare> Programari { get; set; }
     }
 }
