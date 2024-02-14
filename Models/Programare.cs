@@ -5,6 +5,7 @@
         public int ProgramareID { get; set; }
         public int PacientID {  get; set; }
         public int ServiciuID {  get; set; }
+        public DateTime DataProgramare { get; set; }
         public Pacient Pacient { get; set; }
         public Serviciu Serviciu { get; set; }
     }
