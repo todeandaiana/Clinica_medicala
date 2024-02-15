@@ -12,6 +12,7 @@ namespace Clinica_medicala.Data
             public DbSet<Pacient> Pacienti { get; set; }
             public DbSet<Programare> Programari { get; set; }
             public DbSet<Serviciu> Servicii { get; set; }
+            public DbSet<Specializare> Specializari { get; set; }
             public DbSet<Medic> Medici { get; set; }
             public DbSet<ServiciuPrestat> ServiciiPrestate { get; set; }
 
@@ -21,6 +22,7 @@ namespace Clinica_medicala.Data
             modelBuilder.Entity<Pacient>().ToTable("Pacienti");
             modelBuilder.Entity<Programare>().ToTable("Programari");
             modelBuilder.Entity<Serviciu>().ToTable("Servicii");
+            modelBuilder.Entity<Specializare>().ToTable("Specializari");
             modelBuilder.Entity<Medic>().ToTable("Medici");
             modelBuilder.Entity<ServiciuPrestat>().ToTable("ServiciiPrestate");
 

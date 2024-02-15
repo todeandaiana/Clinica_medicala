@@ -78,6 +78,7 @@ namespace Clinica_medicala.Controllers
             }
 
             var serviciu = await _context.Servicii
+                 .Include(b => b.Specializare)
                  .Include(s => s.Programari)
                  .ThenInclude(e => e.Pacient)
                  .AsNoTracking()
@@ -95,6 +96,7 @@ namespace Clinica_medicala.Controllers
         // GET: Servicii/Create
         public IActionResult Create()
         {
+            ViewData["SpecializareID"] = new SelectList(_context.Specializari, "SpecializareID", "Nume");
             return View();
         }
 
@@ -103,7 +105,7 @@ namespace Clinica_medicala.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Titlu,Pret")] Serviciu serviciu)
+        public async Task<IActionResult> Create([Bind("ServiciuID,Titlu,SpecializareID,Pret")] Serviciu serviciu)
         {
             try
             {
@@ -113,6 +115,8 @@ namespace Clinica_medicala.Controllers
                     await _context.SaveChangesAsync();
                     return RedirectToAction(nameof(Index));
                 }
+                ViewData["SpecializareID"] = new SelectList(_context.Specializari, "SpecializareID", "Nume", serviciu.SpecializareID);
+                return View(serviciu);
             }
             catch (DbUpdateException /* ex*/)
             {
@@ -123,8 +127,8 @@ namespace Clinica_medicala.Controllers
         }
 
 
-    // GET: Servicii/Edit/5
-    public async Task<IActionResult> Edit(int? id)
+        // GET: Servicii/Edit/5
+        public async Task<IActionResult> Edit(int? id)
         {
             if (id == null || _context.Servicii == null)
             {
@@ -152,7 +156,7 @@ namespace Clinica_medicala.Controllers
             }
             var serviciuToUpdate = await _context.Servicii.FirstOrDefaultAsync(s => s.ServiciuID == id);
 
-            if (await TryUpdateModelAsync<Serviciu>(serviciuToUpdate, "", s => s.Titlu, s => s.Pret))
+            if (await TryUpdateModelAsync<Serviciu>(serviciuToUpdate, "", s => s.Titlu, s => s.SpecializareID, s => s.Pret))
             {
                 try
                 {
@@ -164,7 +168,7 @@ namespace Clinica_medicala.Controllers
                     ModelState.AddModelError("", "Unable to save changes. " + "Try again, and if the problem persists");
                 }
             }
-          //  ViewData["AuthorID"] = new SelectList(_context.Authors, "AuthorID", "FullName", serviciuToUpdate.AuthorID);
+           ViewData["SpecializareID"] = new SelectList(_context.Specializari, "SpecializareID", "Nume", serviciuToUpdate.SpecializareID);
 
             return View(serviciuToUpdate);
         }
@@ -178,7 +182,7 @@ namespace Clinica_medicala.Controllers
             }
 
             var serviciu = await _context.Servicii
-                //.Include(b => b.Medic)
+                .Include(b => b.Specializare)
                 .AsNoTracking()
                 .FirstOrDefaultAsync(m => m.ServiciuID == id);
             if (serviciu == null)
@@ -203,16 +207,16 @@ namespace Clinica_medicala.Controllers
             {
                 return Problem("Entity set 'ClinicaContext.Servicii'  is null.");
             }
-            var book = await _context.Servicii.FindAsync(id);
+            var serviciu = await _context.Servicii.FindAsync(id);
 
-            if (book == null)
+            if (serviciu == null)
             {
                 return RedirectToAction(nameof(Index));
             }
 
             try
             {
-                _context.Servicii.Remove(book);
+                _context.Servicii.Remove(serviciu);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
 
