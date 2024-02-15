@@ -103,7 +103,7 @@ namespace Clinica_medicala.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Titlu,Medic,Pret")] Serviciu serviciu)
+        public async Task<IActionResult> Create([Bind("Titlu,Pret")] Serviciu serviciu)
         {
             try
             {
@@ -152,7 +152,7 @@ namespace Clinica_medicala.Controllers
             }
             var serviciuToUpdate = await _context.Servicii.FirstOrDefaultAsync(s => s.ServiciuID == id);
 
-            if (await TryUpdateModelAsync<Serviciu>(serviciuToUpdate, "", s => s.Titlu, s => s.Medic, s => s.Pret))
+            if (await TryUpdateModelAsync<Serviciu>(serviciuToUpdate, "", s => s.Titlu, s => s.Pret))
             {
                 try
                 {

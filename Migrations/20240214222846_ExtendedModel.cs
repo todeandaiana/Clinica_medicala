@@ -6,11 +6,24 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Clinica_medicala.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class ExtendedModel : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "Medici",
+                columns: table => new
+                {
+                    MedicID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Nume = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Medici", x => x.MedicID);
+                });
+
             migrationBuilder.CreateTable(
                 name: "Pacienti",
                 columns: table => new
@@ -30,15 +43,14 @@ namespace Clinica_medicala.Migrations
                 name: "Servicii",
                 columns: table => new
                 {
-                    ID = table.Column<int>(type: "int", nullable: false)
+                    ServiciuID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Titlu = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Medic = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Pret = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
+                    Pret = table.Column<decimal>(type: "decimal(6,2)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Servicii", x => x.ID);
+                    table.PrimaryKey("PK_Servicii", x => x.ServiciuID);
                 });
 
             migrationBuilder.CreateTable(
@@ -48,7 +60,8 @@ namespace Clinica_medicala.Migrations
                     ProgramareID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     PacientID = table.Column<int>(type: "int", nullable: false),
-                    ServiciuID = table.Column<int>(type: "int", nullable: false)
+                    ServiciuID = table.Column<int>(type: "int", nullable: false),
+                    DataProgramare = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -63,7 +76,31 @@ namespace Clinica_medicala.Migrations
                         name: "FK_Programari_Servicii_ServiciuID",
                         column: x => x.ServiciuID,
                         principalTable: "Servicii",
-                        principalColumn: "ID",
+                        principalColumn: "ServiciuID",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ServiciiPrestate",
+                columns: table => new
+                {
+                    MedicID = table.Column<int>(type: "int", nullable: false),
+                    ServiciuID = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ServiciiPrestate", x => new { x.ServiciuID, x.MedicID });
+                    table.ForeignKey(
+                        name: "FK_ServiciiPrestate_Medici_MedicID",
+                        column: x => x.MedicID,
+                        principalTable: "Medici",
+                        principalColumn: "MedicID",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ServiciiPrestate_Servicii_ServiciuID",
+                        column: x => x.ServiciuID,
+                        principalTable: "Servicii",
+                        principalColumn: "ServiciuID",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -76,6 +113,11 @@ namespace Clinica_medicala.Migrations
                 name: "IX_Programari_ServiciuID",
                 table: "Programari",
                 column: "ServiciuID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ServiciiPrestate_MedicID",
+                table: "ServiciiPrestate",
+                column: "MedicID");
         }
 
         /// <inheritdoc />
@@ -85,7 +127,13 @@ namespace Clinica_medicala.Migrations
                 name: "Programari");
 
             migrationBuilder.DropTable(
+                name: "ServiciiPrestate");
+
+            migrationBuilder.DropTable(
                 name: "Pacienti");
+
+            migrationBuilder.DropTable(
+                name: "Medici");
 
             migrationBuilder.DropTable(
                 name: "Servicii");

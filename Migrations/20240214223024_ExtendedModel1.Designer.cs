@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Clinica_medicala.Migrations
 {
     [DbContext(typeof(ClinicaContext))]
-    [Migration("20240214194344_InitialCreate1")]
-    partial class InitialCreate1
+    [Migration("20240214223024_ExtendedModel1")]
+    partial class ExtendedModel1
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -74,6 +74,9 @@ namespace Clinica_medicala.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ProgramareID"));
 
+                    b.Property<DateTime>("DataProgramare")
+                        .HasColumnType("datetime2");
+
                     b.Property<int>("PacientID")
                         .HasColumnType("int");
 
@@ -97,12 +100,8 @@ namespace Clinica_medicala.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ServiciuID"));
 
-                    b.Property<string>("Medic")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<decimal>("Pret")
-                        .HasColumnType("decimal(18,2)");
+                        .HasColumnType("decimal(6, 2)");
 
                     b.Property<string>("Titlu")
                         .IsRequired()

@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Clinica_medicala.Migrations
 {
     [DbContext(typeof(ClinicaContext))]
-    [Migration("20240214185951_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20240214224234_ExtendedModel2")]
+    partial class ExtendedModel2
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,6 +24,23 @@ namespace Clinica_medicala.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("Clinica_medicala.Models.Medic", b =>
+                {
+                    b.Property<int>("MedicID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("MedicID"));
+
+                    b.Property<string>("Nume")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("MedicID");
+
+                    b.ToTable("Medici", (string)null);
+                });
 
             modelBuilder.Entity("Clinica_medicala.Models.Pacient", b =>
                 {
@@ -57,6 +74,9 @@ namespace Clinica_medicala.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ProgramareID"));
 
+                    b.Property<DateTime>("DataProgramare")
+                        .HasColumnType("datetime2");
+
                     b.Property<int>("PacientID")
                         .HasColumnType("int");
 
@@ -74,26 +94,37 @@ namespace Clinica_medicala.Migrations
 
             modelBuilder.Entity("Clinica_medicala.Models.Serviciu", b =>
                 {
-                    b.Property<int>("ID")
+                    b.Property<int>("ServiciuID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
-
-                    b.Property<string>("Medic")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ServiciuID"));
 
                     b.Property<decimal>("Pret")
-                        .HasColumnType("decimal(18,2)");
+                        .HasColumnType("decimal(6, 2)");
 
                     b.Property<string>("Titlu")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("ID");
+                    b.HasKey("ServiciuID");
 
                     b.ToTable("Servicii", (string)null);
+                });
+
+            modelBuilder.Entity("Clinica_medicala.Models.ServiciuPrestat", b =>
+                {
+                    b.Property<int>("ServiciuID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("MedicID")
+                        .HasColumnType("int");
+
+                    b.HasKey("ServiciuID", "MedicID");
+
+                    b.HasIndex("MedicID");
+
+                    b.ToTable("ServiciiPrestate", (string)null);
                 });
 
             modelBuilder.Entity("Clinica_medicala.Models.Programare", b =>
@@ -115,6 +146,30 @@ namespace Clinica_medicala.Migrations
                     b.Navigation("Serviciu");
                 });
 
+            modelBuilder.Entity("Clinica_medicala.Models.ServiciuPrestat", b =>
+                {
+                    b.HasOne("Clinica_medicala.Models.Medic", "Medic")
+                        .WithMany("ServiciiPrestate")
+                        .HasForeignKey("MedicID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Clinica_medicala.Models.Serviciu", "Serviciu")
+                        .WithMany("ServiciiPrestate")
+                        .HasForeignKey("ServiciuID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Medic");
+
+                    b.Navigation("Serviciu");
+                });
+
+            modelBuilder.Entity("Clinica_medicala.Models.Medic", b =>
+                {
+                    b.Navigation("ServiciiPrestate");
+                });
+
             modelBuilder.Entity("Clinica_medicala.Models.Pacient", b =>
                 {
                     b.Navigation("Programari");
@@ -123,6 +178,8 @@ namespace Clinica_medicala.Migrations
             modelBuilder.Entity("Clinica_medicala.Models.Serviciu", b =>
                 {
                     b.Navigation("Programari");
+
+                    b.Navigation("ServiciiPrestate");
                 });
 #pragma warning restore 612, 618
         }
