@@ -18,13 +18,42 @@
                 <input asp-for="Nume" class="form-control" />
                 <span asp-validation-for="Nume" class="text-danger"></span>
             </div>
+
+            <div class="form-group"> 
+                <div class="col-md-offset-2 col-md-10"> 
+                    <table> 
+                        <tr> 
+                            @{ 
+                                int cnt = 0; 
+                                
+                            List<Clinica_medicala.Models.ClinicaViewModels.ServiciuPrestatData> books = ViewBag.Servicii; 
+ 
+                                foreach (var serviciu in books) 
+                                { 
+                                    if (cnt++ % 3 == 0) 
+                                    { 
+                                    @:</tr><tr> 
+                                    } 
+                                    @:<td> 
+                                        <input type="checkbox" 
+                                               name="selectedServicii" 
+                                               value="@serviciu.ServiciuID" 
+                                               @(Html.Raw(serviciu.IsPrestat ? "checked=\"checked\"" : "")) /> 
+                                        @serviciu.ServiciuID @:  @serviciu.Titlu 
+                                    @:</td> 
+                                } 
+                            @:</tr> 
+                            } 
+                        </table> 
+                    </div> 
+                </div> 
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
-
+         
 <div>
     <a asp-action="Index">Back to List</a>
 </div>

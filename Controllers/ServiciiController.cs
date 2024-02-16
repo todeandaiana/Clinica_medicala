@@ -114,6 +114,7 @@ namespace Clinica_medicala.Controllers
                     _context.Add(serviciu);
                     await _context.SaveChangesAsync();
                     return RedirectToAction(nameof(Index));
+                  
                 }
                 ViewData["SpecializareID"] = new SelectList(_context.Specializari, "SpecializareID", "Nume", serviciu.SpecializareID);
                 return View(serviciu);

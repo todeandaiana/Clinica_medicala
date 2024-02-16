@@ -10,75 +10,75 @@ namespace Clinica_medicala.Data
         {
             using (var context = new ClinicaContext(serviceProvider.GetRequiredService<DbContextOptions<ClinicaContext>>()))
             {
-               /* if (context.Servicii.Any())
-                {
-                    return; // BD a fost creata anterior
-                }
-               */
-
-                var programari = new Programare[]
+                /* if (context.Servicii.Any())
                  {
-                 new Programare{ServiciuID=1,PacientID=1,DataProgramare=DateTime.Parse("2021-02-25")},
-                 new Programare{ServiciuID=3,PacientID=1,DataProgramare=DateTime.Parse("2021-09-28")},
-                 new Programare{ServiciuID=1,PacientID=1,DataProgramare=DateTime.Parse("2021-10-28")},
-                 new Programare{ServiciuID=2,PacientID=5,DataProgramare=DateTime.Parse("2021-09-28")},
-                 new Programare{ServiciuID=4,PacientID=7,DataProgramare=DateTime.Parse("2021-09-28")},
-                 new Programare{ServiciuID=6,PacientID=12,DataProgramare=DateTime.Parse("2021-10-28")},
-                 };
-                foreach (Programare e in programari)
-                {
-                    context.Programari.Add(e);
-                }
-                context.SaveChanges();
+                     return; // BD a fost creata anterior
+                 }
+                */
 
-               /* var medici = new Medic[]
-                {
+                /*   var programari = new Programare[]
+                   {
+                   new Programare{ServiciuID=1,PacientID=1,DataProgramare=DateTime.Parse("2021-02-25")},
+                   new Programare{ServiciuID=3,PacientID=1,DataProgramare=DateTime.Parse("2021-09-28")},
+                   new Programare{ServiciuID=1,PacientID=1,DataProgramare=DateTime.Parse("2021-10-28")},
+                   new Programare{ServiciuID=2,PacientID=5,DataProgramare=DateTime.Parse("2021-09-28")},
+                   new Programare{ServiciuID=4,PacientID=7,DataProgramare=DateTime.Parse("2021-09-28")},
+                   new Programare{ServiciuID=6,PacientID=12,DataProgramare=DateTime.Parse("2021-10-28")},
+                   };
+                  foreach (Programare e in programari)
+                  {
+                      context.Programari.Add(e);
+                  }
+                  context.SaveChanges();
 
-                 new Medic{Nume="Sirbu Cristian"},
-                 new Medic{Nume="Salatioan Andra"},
-                 new Medic{Nume="Fechete Laura"},
-                 new Medic{Nume="Berei Bogdan"}
-                 };
-                foreach (Medic p in medici)
-                {
-                    context.Medici.Add(p);
-                }
-                //context.SaveChanges();
+                 var medici = new Medic[]
+                  {
 
-                var servicii = context.Servicii;
-                var serviciiprestate = new ServiciuPrestat[]
-                {
-                new ServiciuPrestat
-                    {
-                    ServiciuID = servicii.Single(c => c.Titlu == "Consult dermatologie" ).ServiciuID,
-                    MedicID = medici.Single(i => i.Nume =="Fechete Laura").MedicID
-                    },
+                   new Medic{Nume="Sirbu Cristian"},
+                   new Medic{Nume="Salatioan Andra"},
+                   new Medic{Nume="Fechete Laura"},
+                   new Medic{Nume="Berei Bogdan"}
+                   };
+                  foreach (Medic p in medici)
+                  {
+                      context.Medici.Add(p);
+                  }
+                  //context.SaveChanges();
 
-                new ServiciuPrestat
-                    {
-                    ServiciuID = servicii.Single(c => c.Titlu == "Consult endocrinologie" ).ServiciuID,
-                    MedicID = medici.Single(i => i.Nume =="Berei Bogdan").MedicID
-                    },
+                  var servicii = context.Servicii;
+                  var serviciiprestate = new ServiciuPrestat[]
+                  {
+                  new ServiciuPrestat
+                      {
+                      ServiciuID = servicii.Single(c => c.Titlu == "Consult dermatologie" ).ServiciuID,
+                      MedicID = medici.Single(i => i.Nume =="Fechete Laura").MedicID
+                      },
 
-                new ServiciuPrestat
-                    {
-                    ServiciuID = servicii.Single(c => c.Titlu == "Peeling chimic" ).ServiciuID,
-                    MedicID = medici.Single(i => i.Nume =="Sirbu Cristian").MedicID
-                    },
+                  new ServiciuPrestat
+                      {
+                      ServiciuID = servicii.Single(c => c.Titlu == "Consult endocrinologie" ).ServiciuID,
+                      MedicID = medici.Single(i => i.Nume =="Berei Bogdan").MedicID
+                      },
 
-                new ServiciuPrestat
-                    {
-                    ServiciuID = servicii.Single(c => c.Titlu == "RMN" ).ServiciuID,
-                    MedicID = medici.Single(i => i.Nume =="Salatioan Andra").MedicID
-                    }
-                };
- 
-                foreach (ServiciuPrestat pb in serviciiprestate)
-                {
-                    context.ServiciiPrestate.Add(pb);
-                }
-                context.SaveChanges();
-               */
+                  new ServiciuPrestat
+                      {
+                      ServiciuID = servicii.Single(c => c.Titlu == "Peeling chimic" ).ServiciuID,
+                      MedicID = medici.Single(i => i.Nume =="Sirbu Cristian").MedicID
+                      },
+
+                  new ServiciuPrestat
+                      {
+                      ServiciuID = servicii.Single(c => c.Titlu == "RMN" ).ServiciuID,
+                      MedicID = medici.Single(i => i.Nume =="Salatioan Andra").MedicID
+                      }
+                  };
+
+                  foreach (ServiciuPrestat pb in serviciiprestate)
+                  {
+                      context.ServiciiPrestate.Add(pb);
+                  }
+                  context.SaveChanges();
+                 */
             }
         }
 

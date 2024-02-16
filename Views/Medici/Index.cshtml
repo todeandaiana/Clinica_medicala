@@ -1,10 +1,10 @@
-﻿@model IEnumerable<Clinica_medicala.Models.Medic>
+﻿@model Clinica_medicala.Models.ClinicaViewModels.MedicIndexData
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Medici";
 }
 
-<h1>Index</h1>
+<h1>Medici</h1>
 
 <p>
     <a asp-action="Create">Create New</a>
@@ -12,24 +12,74 @@
 <table class="table">
     <thead>
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Nume)
-            </th>
+            <th>Nume</th>
+            <th>Servicii</th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Nume)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.MedicID">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.MedicID">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.MedicID">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model.Medici)
+        {
+            string selectedRow = "";
+            if (item.MedicID == (int?)ViewData["MedicID"])
+            {
+                selectedRow = "success";
+            }
+            <tr class="@selectedRow">
+                <td>
+                    @Html.DisplayFor(modelItem => item.Nume)
+                </td>
+
+                <td>
+                    @{
+                        foreach (var serviciu in item.ServiciiPrestate)
+                        {
+                            @serviciu.Serviciu.ServiciuID @: @serviciu.Serviciu.Titlu <br />
+                        }
+                    }
+                </td>
+                <td>
+                    <a asp-action="Index" asp-route-id="@item.MedicID">Select</a> |
+                    <a asp-action="Edit" asp-route-id="@item.MedicID">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.MedicID">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.MedicID">Delete</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
+
+@if (Model.Servicii != null)
+{
+    <h3>Servicii prestate de medicul selectat</h3>
+    <table class="table">
+        <tr>
+            <th></th>
+            <th>Titlu</th>
+            <th>Specializare</th>
+            <th>Pret</th>
+        </tr>
+        @foreach (var item in Model.Servicii)
+        {
+            string selectedRow = "";
+            if (item.ServiciuID == (int?)ViewData["ServiciuID"])
+            {
+                selectedRow = "success";
+            }
+            <tr class="@selectedRow">
+                <td>
+                    @Html.ActionLink("Select", "Index", new { serviciuID = item.ServiciuID })
+                </td>
+                <td>
+                    @item.Titlu
+                </td>
+                <td>
+                    @item.Specializare.Nume
+                </td>
+                <td>
+                    @item.Pret
+                </td>
+            </tr>
+        }
+    </table>
+}

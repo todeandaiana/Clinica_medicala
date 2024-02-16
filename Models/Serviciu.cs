@@ -12,8 +12,8 @@ namespace Clinica_medicala.Models
         [Column(TypeName = "decimal(6, 2)")]
         public decimal Pret { get; set; }
 
-        public ICollection<Programare>? Programari { get; set; }
+        public ICollection<Programare> Programari { get; set; }
 
-        public ICollection<ServiciuPrestat>? ServiciiPrestate { get; set; }
+        public ICollection<ServiciuPrestat> ServiciiPrestate { get; set; }
     }
 }
