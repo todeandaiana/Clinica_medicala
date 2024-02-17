@@ -3,7 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.7.34202.233
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Clinica_medicala", "Clinica_medicala.csproj", "{BD657202-DBCD-4D2C-853C-D716D877D3CD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Clinica_medicala", "Clinica_medicala.csproj", "{BD657202-DBCD-4D2C-853C-D716D877D3CD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClinicaModel", "..\ClinicaModel\ClinicaModel.csproj", "{494BBF37-104F-4AC2-A910-9760D3FF2A03}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClinicaWebAPI", "..\ClinicaWebAPI\ClinicaWebAPI.csproj", "{A74B51E8-538D-4913-B9D1-08F333D49E29}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +19,14 @@ Global
 		{BD657202-DBCD-4D2C-853C-D716D877D3CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BD657202-DBCD-4D2C-853C-D716D877D3CD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BD657202-DBCD-4D2C-853C-D716D877D3CD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{494BBF37-104F-4AC2-A910-9760D3FF2A03}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{494BBF37-104F-4AC2-A910-9760D3FF2A03}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{494BBF37-104F-4AC2-A910-9760D3FF2A03}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{494BBF37-104F-4AC2-A910-9760D3FF2A03}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A74B51E8-538D-4913-B9D1-08F333D49E29}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A74B51E8-538D-4913-B9D1-08F333D49E29}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A74B51E8-538D-4913-B9D1-08F333D49E29}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A74B51E8-538D-4913-B9D1-08F333D49E29}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

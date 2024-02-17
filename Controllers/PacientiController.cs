@@ -7,12 +7,17 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Clinica_medicala.Data;
 using Clinica_medicala.Models;
+using System.Net.Http;
+using System.Text;
+using Newtonsoft.Json;
+
 
 namespace Clinica_medicala.Controllers
 {
     public class PacientiController : Controller
     {
         private readonly ClinicaContext _context;
+        private string _baseUrl = "https://localhost:7011/api/Pacienti";
 
         public PacientiController(ClinicaContext context)
         {
@@ -20,29 +25,36 @@ namespace Clinica_medicala.Controllers
         }
 
         // GET: Pacienti
-        public async Task<IActionResult> Index()
+        public async Task<ActionResult> Index()
         {
-              return _context.Pacienti != null ? 
-                          View(await _context.Pacienti.ToListAsync()) :
-                          Problem("Entity set 'ClinicaContext.Pacienti'  is null.");
+            var client = new HttpClient();
+            var response = await client.GetAsync(_baseUrl);
+
+            if (response.IsSuccessStatusCode)
+            {
+                var pacienti = JsonConvert.DeserializeObject<List<Pacient>>(await response.Content.ReadAsStringAsync());
+                return View(pacienti);
+            }
+            return NotFound();
+
         }
 
         // GET: Pacienti/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null || _context.Pacienti == null)
+            if (id == null)
             {
-                return NotFound();
+                return new BadRequestResult();
             }
-
-            var pacient = await _context.Pacienti
-                .FirstOrDefaultAsync(m => m.PacientID == id);
-            if (pacient == null)
+            var pacient = new HttpClient();
+            var response = await pacient.GetAsync($"{_baseUrl}/{id.Value}");
+            if (response.IsSuccessStatusCode)
             {
-                return NotFound();
+                var client = JsonConvert.DeserializeObject<Pacient>(
+                await response.Content.ReadAsStringAsync());
+                return View(client);
             }
-
-            return View(pacient);
+            return NotFound();
         }
 
         // GET: Pacienti/Create
@@ -58,11 +70,21 @@ namespace Clinica_medicala.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("PacientID,Nume,Adresa,DataNasterii")] Pacient pacient)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid) return View(pacient);
+            try
             {
-                _context.Add(pacient);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                var client = new HttpClient();
+                string json = JsonConvert.SerializeObject(pacient);
+                var response = await client.PostAsync(_baseUrl,
+                new StringContent(json, Encoding.UTF8, "application/json"));
+                if (response.IsSuccessStatusCode)
+                {
+                    return RedirectToAction("Index");
+                }
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError(string.Empty, $"Unable to create record:{ex.Message}");
             }
             return View(pacient);
         }
@@ -70,17 +92,19 @@ namespace Clinica_medicala.Controllers
         // GET: Pacienti/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null || _context.Pacienti == null)
+            if (id == null)
             {
-                return NotFound();
+                return new BadRequestResult();
             }
-
-            var pacient = await _context.Pacienti.FindAsync(id);
-            if (pacient == null)
+            var client = new HttpClient();
+            var response = await client.GetAsync($"{_baseUrl}/{id.Value}");
+            if (response.IsSuccessStatusCode)
             {
-                return NotFound();
+                var pacient = JsonConvert.DeserializeObject<Pacient>(
+                await response.Content.ReadAsStringAsync());
+                return View(pacient);
             }
-            return View(pacient);
+            return new NotFoundResult();
         }
 
         // POST: Pacienti/Edit/5
@@ -90,30 +114,14 @@ namespace Clinica_medicala.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("PacientID,Nume,Adresa,DataNasterii")] Pacient pacient)
         {
-            if (id != pacient.PacientID)
+            if (!ModelState.IsValid) return View(pacient);
+            var client = new HttpClient();
+            string json = JsonConvert.SerializeObject(pacient);
+            var response = await client.PutAsync($"{_baseUrl}/{pacient.PacientID}",
+            new StringContent(json, Encoding.UTF8, "application/json"));
+            if (response.IsSuccessStatusCode)
             {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(pacient);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!PacientExists(pacient.PacientID))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index");
             }
             return View(pacient);
         }
@@ -121,43 +129,50 @@ namespace Clinica_medicala.Controllers
         // GET: Pacienti/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null || _context.Pacienti == null)
+            if (id == null)
             {
-                return NotFound();
+                return new BadRequestResult();
             }
-
-            var pacient = await _context.Pacienti
-                .FirstOrDefaultAsync(m => m.PacientID == id);
-            if (pacient == null)
+            var client = new HttpClient();
+            var response = await client.GetAsync($"{_baseUrl}/{id.Value}");
+            if (response.IsSuccessStatusCode)
             {
-                return NotFound();
+                var pacient = JsonConvert.DeserializeObject<Pacient>(await response.Content.ReadAsStringAsync());
+                return View(pacient);
             }
-
-            return View(pacient);
+            return new NotFoundResult();
         }
 
         // POST: Pacienti/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<ActionResult> Delete([Bind("PacientID")] Pacient pacient)
         {
-            if (_context.Pacienti == null)
+            try
             {
-                return Problem("Entity set 'ClinicaContext.Pacienti'  is null.");
+                var client = new HttpClient();
+                HttpRequestMessage request =
+                new HttpRequestMessage(HttpMethod.Delete,
+               $"{_baseUrl}/{pacient.PacientID}")
+                {
+                    Content = new StringContent(JsonConvert.SerializeObject(pacient),
+               Encoding.UTF8, "application/json")
+                };
+                var response = await client.SendAsync(request);
+                return RedirectToAction("Index");
             }
-            var pacient = await _context.Pacienti.FindAsync(id);
-            if (pacient != null)
+            catch (Exception ex)
             {
-                _context.Pacienti.Remove(pacient);
+                ModelState.AddModelError(string.Empty, $"Unable to delete record:{ex.Message}");
             }
-            
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return View(pacient);
         }
 
-        private bool PacientExists(int id)
+
+      /*  private bool PacientExists(int id)
         {
           return (_context.Pacienti?.Any(e => e.PacientID == id)).GetValueOrDefault();
         }
+      */
     }
 }
