@@ -63,12 +63,9 @@ namespace Clinica_medicala.Controllers
                         break;
             }
 
-                int pageSize = 2;
-            //return View(await servicii.AsNoTracking().ToListAsync());
+                int pageSize = 4;
 
-            return View(await PaginatedList<Serviciu>.CreateAsync(servicii.AsNoTracking(), pageNumber ?? 1, pageSize));
-
-                //  return View(await books.AsNoTracking().Include(a => a.Author).ToListAsync());
+            return View(await PaginatedList<Serviciu>.CreateAsync(servicii.AsNoTracking().Include(s => s.Specializare), pageNumber ?? 1, pageSize));
             }
 
         // GET: Servicii/Details/5
@@ -132,12 +129,11 @@ namespace Clinica_medicala.Controllers
             return View(serviciu);
         }
 
-
         // GET: Servicii/Edit/5
         [Authorize(Roles = "Manager")]
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null || _context.Servicii == null)
+            if (id == null)
             {
                 return NotFound();
             }
@@ -147,6 +143,8 @@ namespace Clinica_medicala.Controllers
             {
                 return NotFound();
             }
+
+            ViewData["SpecializareID"] = new SelectList(_context.Specializari, "SpecializareID", "Nume", serviciu.SpecializareID);
             return View(serviciu);
         }
 

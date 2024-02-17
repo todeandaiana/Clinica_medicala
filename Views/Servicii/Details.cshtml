@@ -28,28 +28,7 @@
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Pret)
         </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Programari)
-        </dt>
-        <dd class="col-sm-10">
-            <table class="table">
-                <tr>
-                    <th>Pacient</th>
-                    <th>Data programarii</th>
-                </tr>
-                @foreach (var item in Model.Programari)
-                {
-                    <tr>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Pacient.Nume)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.DataProgramare)
-                        </td>
-                    </tr>
-                }
-            </table>
-        </dd>
+        
     </dl>
 </div>
 <div>
