@@ -7,9 +7,11 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Clinica_medicala.Data;
 using Clinica_medicala.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Clinica_medicala.Controllers
 {
+    [Authorize(Policy = "DoarReceptie")]
     public class ProgramariController : Controller
     {
         private readonly ClinicaContext _context;

@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Clinica_medicala.Data;
 using Clinica_medicala.Models;
 using static System.Reflection.Metadata.BlobBuilder;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Clinica_medicala.Controllers
 {
@@ -21,7 +22,8 @@ namespace Clinica_medicala.Controllers
         }
 
         // GET: Servicii
-            public async Task<IActionResult> Index(string sortOrder, string currentFilter, string searchString, int? pageNumber)
+        [AllowAnonymous]
+        public async Task<IActionResult> Index(string sortOrder, string currentFilter, string searchString, int? pageNumber)
             {
                 ViewData["CurrentSort"] = sortOrder;
                 ViewData["TitleSortParm"] = String.IsNullOrEmpty(sortOrder) ? "title_desc" : "";
@@ -70,6 +72,7 @@ namespace Clinica_medicala.Controllers
             }
 
         // GET: Servicii/Details/5
+        [AllowAnonymous]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null || _context.Servicii == null)
@@ -94,6 +97,7 @@ namespace Clinica_medicala.Controllers
         }
 
         // GET: Servicii/Create
+        [Authorize(Roles = "Manager")]
         public IActionResult Create()
         {
             ViewData["SpecializareID"] = new SelectList(_context.Specializari, "SpecializareID", "Nume");
@@ -105,6 +109,7 @@ namespace Clinica_medicala.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Manager")]
         public async Task<IActionResult> Create([Bind("ServiciuID,Titlu,SpecializareID,Pret")] Serviciu serviciu)
         {
             try
@@ -129,6 +134,7 @@ namespace Clinica_medicala.Controllers
 
 
         // GET: Servicii/Edit/5
+        [Authorize(Roles = "Manager")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null || _context.Servicii == null)
@@ -149,6 +155,8 @@ namespace Clinica_medicala.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost, ActionName("Edit")]
         [ValidateAntiForgeryToken]
+
+        [Authorize(Roles = "Manager")]
         public async Task<IActionResult> EditPost(int? id)
         {
             if (id == null)
@@ -175,6 +183,7 @@ namespace Clinica_medicala.Controllers
         }
 
         // GET: Servicii/Delete/5
+        [Authorize(Roles = "Manager")]
         public async Task<IActionResult> Delete(int? id, bool? saveChangesError = false)
         {
             if (id == null || _context.Servicii == null)
@@ -202,6 +211,8 @@ namespace Clinica_medicala.Controllers
         // POST: Servicii/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Manager")]
+
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             if (_context.Servicii == null)

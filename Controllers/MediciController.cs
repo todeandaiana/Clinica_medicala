@@ -11,6 +11,7 @@ using System.Security.Policy;
 using Clinica_medicala.Models;
 using Clinica_medicala.Models.ClinicaViewModels;
 using System.Net;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Clinica_medicala.Controllers
 {
@@ -24,6 +25,7 @@ namespace Clinica_medicala.Controllers
         }
 
         // GET: Medici
+        [AllowAnonymous]
         public async Task<IActionResult> Index(int? id, int? serviciuID)
         {
             var viewModel = new MedicIndexData();
@@ -61,6 +63,7 @@ namespace Clinica_medicala.Controllers
 
 
         // GET: Medici/Details/5
+        [AllowAnonymous]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null || _context.Medici == null)
@@ -79,6 +82,7 @@ namespace Clinica_medicala.Controllers
         }
 
         // GET: Medici/Create
+        [Authorize(Roles = "Manager")]
         public IActionResult Create()
         {
             return View();
@@ -89,6 +93,7 @@ namespace Clinica_medicala.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Angajat, Manager")]
         public async Task<IActionResult> Create([Bind("MedicID,Nume")] Medic medic)
         {
             if (ModelState.IsValid)
@@ -101,6 +106,7 @@ namespace Clinica_medicala.Controllers
         }
 
         // GET: Medici/Edit/5
+        [Authorize(Roles = "Manager")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null || _context.Medici == null)
@@ -144,6 +150,7 @@ namespace Clinica_medicala.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Manager")]
         public async Task<IActionResult> Edit(int? id, string[] selectedServicii)
         {
             if (id == null)
@@ -208,6 +215,7 @@ namespace Clinica_medicala.Controllers
         }
 
         // GET: Medici/Delete/5
+        [Authorize(Roles = "Manager")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null || _context.Medici == null)
@@ -228,6 +236,7 @@ namespace Clinica_medicala.Controllers
         // POST: Medici/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Manager")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             if (_context.Medici == null)

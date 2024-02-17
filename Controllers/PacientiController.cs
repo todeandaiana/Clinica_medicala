@@ -10,10 +10,12 @@ using Clinica_medicala.Models;
 using System.Net.Http;
 using System.Text;
 using Newtonsoft.Json;
+using Microsoft.AspNetCore.Authorization;
 
 
 namespace Clinica_medicala.Controllers
 {
+    [Authorize(Policy = "DoarReceptie")]
     public class PacientiController : Controller
     {
         private readonly ClinicaContext _context;

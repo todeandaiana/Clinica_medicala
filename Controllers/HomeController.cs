@@ -4,11 +4,11 @@ using System.Diagnostics;
 using Microsoft.EntityFrameworkCore;
 using Clinica_medicala.Data;
 using Clinica_medicala.Models.ClinicaViewModels;
-
-
+using Microsoft.AspNetCore.Authorization;
 
 namespace Clinica_medicala.Controllers
 {
+    [Authorize(Policy = "DoarManager")]
     public class HomeController : Controller
 
     {
