@@ -16,10 +16,10 @@
                 @Html.DisplayNameFor(model => model.DataProgramare)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Pacient)
+                @Html.DisplayNameFor(model => model.Pacient.Nume)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Serviciu)
+                @Html.DisplayNameFor(model => model.Serviciu.Titlu)
             </th>
             <th></th>
         </tr>
@@ -31,10 +31,10 @@
                 @Html.DisplayFor(modelItem => item.DataProgramare)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Pacient.PacientID)
+                @Html.DisplayFor(modelItem => item.Pacient.Nume)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Serviciu.ServiciuID)
+                @Html.DisplayFor(modelItem => item.Serviciu.Titlu)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.ProgramareID">Edit</a> |

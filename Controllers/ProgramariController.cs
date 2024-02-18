@@ -69,8 +69,8 @@ namespace Clinica_medicala.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["PacientID"] = new SelectList(_context.Pacienti, "PacientID", "PacientID", programare.PacientID);
-            ViewData["ServiciuID"] = new SelectList(_context.Servicii, "ServiciuID", "ServiciuID", programare.ServiciuID);
+            ViewData["PacientID"] = new SelectList(_context.Pacienti, "PacientID", "Nume", programare.PacientID);
+            ViewData["ServiciuID"] = new SelectList(_context.Servicii, "ServiciuID", "Titlu", programare.ServiciuID);
             return View(programare);
         }
 
@@ -87,8 +87,8 @@ namespace Clinica_medicala.Controllers
             {
                 return NotFound();
             }
-            ViewData["PacientID"] = new SelectList(_context.Pacienti, "PacientID", "PacientID", programare.PacientID);
-            ViewData["ServiciuID"] = new SelectList(_context.Servicii, "ServiciuID", "ServiciuID", programare.ServiciuID);
+            ViewData["PacientID"] = new SelectList(_context.Pacienti, "PacientID", "Nume", programare.PacientID);
+            ViewData["ServiciuID"] = new SelectList(_context.Servicii, "ServiciuID", "Titlu", programare.ServiciuID);
             return View(programare);
         }
 
@@ -124,8 +124,8 @@ namespace Clinica_medicala.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["PacientID"] = new SelectList(_context.Pacienti, "PacientID", "PacientID", programare.PacientID);
-            ViewData["ServiciuID"] = new SelectList(_context.Servicii, "ServiciuID", "ServiciuID", programare.ServiciuID);
+            ViewData["PacientID"] = new SelectList(_context.Pacienti, "PacientID", "Nume", programare.PacientID);
+            ViewData["ServiciuID"] = new SelectList(_context.Servicii, "ServiciuID", "Titlu", programare.ServiciuID);
             return View(programare);
         }
 
