@@ -51,8 +51,8 @@ namespace Clinica_medicala.Controllers
         // GET: Programari/Create
         public IActionResult Create()
         {
-            ViewData["PacientID"] = new SelectList(_context.Pacienti, "PacientID", "PacientID");
-            ViewData["ServiciuID"] = new SelectList(_context.Servicii, "ServiciuID", "ServiciuID");
+            ViewData["PacientID"] = new SelectList(_context.Pacienti, "PacientID", "Nume");
+            ViewData["ServiciuID"] = new SelectList(_context.Servicii, "ServiciuID", "Titlu");
             return View();
         }
 
